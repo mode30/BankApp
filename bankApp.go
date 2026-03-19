@@ -1,14 +1,15 @@
 package main
 
 import (
-	"bufio"
+	// "bufio"
 	"errors"
 	"fmt"
 	"log"
-	"os"
+	// "os"
 	"strconv"
-	"strings"
+	// "strings"
 	"time"
+	"excercise/bankApp/userInput"
 )
 
 type Bank struct{
@@ -21,27 +22,21 @@ type Bank struct{
 }
 var totalAmount float64=10000
 func main(){
-
-}
-
-
-func user()( string,error){
-	buffer:=bufio.NewReader(os.Stdin)
-	bufferString,err:=buffer.ReadString('\n')
+	result,err:=withdrawal("enter amount to withdraw")
 	if err !=nil{
-		return "",fmt.Errorf("%w", err)
-		// log.Fatal(err)
+		log.Fatal(err)
+		// return 0,fmt.Errorf("cannot parse user input %w", err)
 	}
-	userInputTrimmed:=strings.TrimSpace(bufferString)
-	 return userInputTrimmed,nil
-}
-func withdrawal(prompt string)(bankAccount float64,err error){
 
+}
+
+
+func withdrawal(prompt string)(bankAccount float64,err error){
 	var state bool
 	// state=false
 	// var value float64
 	fmt.Print(prompt)
-	userInput,err:=user()
+	userInput,err:=userInput.User()
 	if err!=nil{
 		log.Fatal(err)
 	}
@@ -56,16 +51,15 @@ func withdrawal(prompt string)(bankAccount float64,err error){
 		state=false
 	}
 
-
 	if state{
 		return  0,errors.New("cannot withdraw amount")
 
 	}else{
-		result:=totalAmount -userInput
+		result:=totalAmount-userAmount
 		return result,nil
 	}
 
 }
-func deposit(prompt string,amount float64)(bankAccount string,err error){
+// func deposit(prompt string,amount float64)(bankAccount string,err error){
 
-}
+// }
