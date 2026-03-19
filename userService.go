@@ -102,7 +102,7 @@ func (bankInfo *Bank)getBalance()(accountBalance *Bank,err error){
 
 
 
-func (newBankAccount *Bank)newAccount()(bankAccount *Bank,err error){
+func (newBankAccount *Bank)new()(bankAccount *Bank,err error){
 	if newBankAccount.accountHolder=="" || newBankAccount.balance <= 0 {
 		return nil,errors.New("first name,last name,balance greater than 0 has to be provided")
 
