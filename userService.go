@@ -3,27 +3,41 @@ package main
 import(
 	"fmt"
 	"excercise/bankApp/userInput"
-	"excercise/bankApp/shared"
+	// "excercise/bankApp/shared"
 	"strconv"
 	"errors"
-	"log"
+	"time"
+	// "log"
 )
-func withdrawal(prompt string,totalAmount *float64)(bankAccount *float64,err error){
+
+
+type Bank struct{
+	accountHolder string
+	// holderName string
+	balance float64
+	createdAt time.Time
+	lastTransaction time.Time
+
+}
+func withdrawal(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
+// func withdrawal(prompt string,totalAmount *float64)(bankAccount *float64,err error){
 	var state bool
 	// state=false
 	// var value float64
 	fmt.Print(prompt)
 	userInput,err:=userInput.User()
 	if err!=nil{
-		log.Fatal(err)
+		return nil,fmt.Errorf("cannot read user input %w",err)
+		// log.Fatal(err)
 	}
 	userAmount,err:=strconv.ParseFloat(userInput,64)
 	if err !=nil{
-		log.Fatal(err)
+		return nil,fmt.Errorf("cannot get user input:%w", err)
+		// log.Fatal(err)
 	}
-	if userAmount > *totalAmount{
+	if userAmount > totalAmount.balance{
 		state=true
-		fmt.Println("amount over the total amount in accout")
+		// fmt.Println("amount over the total amount in accout")
 	}else{
 		state=false
 	}
@@ -32,12 +46,12 @@ func withdrawal(prompt string,totalAmount *float64)(bankAccount *float64,err err
 		return  nil,errors.New("cannot withdraw amount")
 
 	}else{
-		*totalAmount-=userAmount
+		totalAmount.balance-=userAmount
 		return totalAmount,nil
 	}
 
 }
-func deposit(prompt string)(bankAccount float64,err error){
+func deposit(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
 
 
 	var state bool
@@ -46,27 +60,42 @@ func deposit(prompt string)(bankAccount float64,err error){
 	fmt.Print(prompt)
 	userInput,err:=userInput.User()
 	if err!=nil{
-		log.Fatal(err)
+		return nil,fmt.Errorf("cannot read user input", err)
+		// log.Fatal(err)
 	}
 	userAmount,err:=strconv.ParseFloat(userInput,64)
 	if err !=nil{
-		log.Fatal(err)
+		return nil,fmt.Errorf("cannot read user input", err)
+		// log.Fatal(err)
 	}
 	if userAmount < 0{
 		state=true
-		fmt.Println("amount must be greater than 0")
+		// fmt.Println("amount must be greater than 0")
 	}else{
 		state=false
 	}
 
 	if state{
-		return 0,fmt.Errorf("error parsing value less than 0:%w", err)
+		return nil,errors.New("error parsing value less than 0")
 		// return  0,errors.New("cannot withdraw amount")
 
 	}else{
-		shared.TotalAmount+=userAmount
+		totalAmount.balance+=userAmount
 		// result:=totalAmount-userAmount
-		return shared.TotalAmount,nil
+		return totalAmount,nil
 	}
 
 }
+
+
+func getBalance(bankInfo *Bank)(accountBalance *Bank,err error){
+	personAccount:=Bank{
+		accountHolder:bankInfo.accountHolder,
+		balance:bankInfo.balance,
+		createdAt:bankInfo.createdAt,
+		lastTransaction:bankInfo.lastTransaction,
+	}
+	return &personAccount,nil
+
+}
+

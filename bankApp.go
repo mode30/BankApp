@@ -7,18 +7,18 @@ import (
 	 "excercise/bankApp/shared"
 )
 
-type Bank struct{
-	accountHolder string
-	holderName string
-	balance float64
-	createdAt time.Time
-	lastTransaction time.Time
-
-}
 func main(){
 
 
-	withdrawnAmount,err:=withdrawal("enter amount to withdraw",&shared.TotalAmount)
+	var account Bank
+
+		account.accountHolder="benjamin"
+		account.balance=shared.TotalAmount
+		account.createdAt=time.Now()
+
+	// }
+	withdrawnAmount,err:=withdrawal("enter amount to withdraw",&account)
+	// withdrawnAmount,err:=withdrawal("enter amount to withdraw",&shared.TotalAmount)
 	if err !=nil{
 		log.Fatal(err)
 		// return 0,fmt.Errorf("cannot parse user input %w", err)
@@ -26,7 +26,7 @@ func main(){
 	fmt.Print(withdrawnAmount)
 
 
-	depositedAmount,err:=deposit("enter amount to deposit:")
+	depositedAmount,err:=deposit("enter amount to deposit:",&account)
 	if err !=nil{
 		log.Fatal(err)
 		// return 0,fmt.Errorf("cannot parse user input %w", err)
