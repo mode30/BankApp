@@ -17,7 +17,7 @@ func main(){
 		account.createdAt=time.Now()
 
 	// }
-	withdrawnAmount,err:=withdrawal("enter amount to withdraw",&account)
+	withdrawnAmount,err:=account.withdrawal("enter amount to withdraw")
 	// withdrawnAmount,err:=withdrawal("enter amount to withdraw",&shared.TotalAmount)
 	if err !=nil{
 		log.Fatal(err)
@@ -26,7 +26,7 @@ func main(){
 	fmt.Print(withdrawnAmount)
 
 
-	depositedAmount,err:=deposit("enter amount to deposit:",&account)
+	depositedAmount,err:=account.deposit("enter amount to deposit:")
 	if err !=nil{
 		log.Fatal(err)
 		// return 0,fmt.Errorf("cannot parse user input %w", err)

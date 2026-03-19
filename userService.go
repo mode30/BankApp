@@ -19,7 +19,7 @@ type Bank struct{
 	lastTransaction time.Time
 
 }
-func withdrawal(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
+func(totalAmount *Bank)withdrawal(prompt string)(bankAccount *Bank,err error){
 // func withdrawal(prompt string,totalAmount *float64)(bankAccount *float64,err error){
 	var state bool
 	// state=false
@@ -51,7 +51,7 @@ func withdrawal(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
 	}
 
 }
-func deposit(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
+func (totalAmount *Bank)deposit(prompt string)(bankAccount *Bank,err error){
 
 
 	var state bool
@@ -88,7 +88,7 @@ func deposit(prompt string,totalAmount *Bank)(bankAccount *Bank,err error){
 }
 
 
-func getBalance(bankInfo *Bank)(accountBalance *Bank,err error){
+func (bankInfo *Bank)getBalance()(accountBalance *Bank,err error){
 	personAccount:=Bank{
 		accountHolder:bankInfo.accountHolder,
 		balance:bankInfo.balance,
@@ -99,3 +99,20 @@ func getBalance(bankInfo *Bank)(accountBalance *Bank,err error){
 
 }
 
+
+
+
+func (newBankAccount *Bank)newAccount()(bankAccount *Bank,err error){
+	if newBankAccount.accountHolder=="" || newBankAccount.balance <= 0 {
+		return nil,errors.New("first name,last name,balance greater than 0 has to be provided")
+
+	}
+	return &Bank{
+
+		accountHolder:newBankAccount.accountHolder,
+		balance :newBankAccount.balance,
+		createdAt:newBankAccount.createdAt,
+		lastTransaction:newBankAccount.lastTransaction,
+
+	},nil
+}
